@@ -7,7 +7,7 @@ package javacourse.mdtekwill.employeeexercise.service.impl;
 
 import java.util.Arrays;
 import javacourse.mdtekwill.employeeexercise.dao.impl.DepartmentDaoImpl;
-import javacourse.mdtekwill.employeeexercise.dao.impl.EmployeeDaoImpl;
+import javacourse.mdtekwill.employeeexercise.dao.impl.EmployeeDaoImplArrayList;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
 import javacourse.mdtekwill.employeeexercise.domain.Employee;
 import javacourse.mdtekwill.employeeexercise.service.EmployeeService;
@@ -18,7 +18,8 @@ import javacourse.mdtekwill.employeeexercise.service.EmployeeService;
  */
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
+    //private EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
+    private EmployeeDaoImplArrayList employeeDao = new EmployeeDaoImplArrayList();
     private DepartmentDaoImpl departmentDao = new DepartmentDaoImpl();
 
     @Override
