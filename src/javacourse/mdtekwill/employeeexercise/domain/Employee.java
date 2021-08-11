@@ -5,16 +5,21 @@
  */
 package javacourse.mdtekwill.employeeexercise.domain;
 
+import java.util.Calendar;
+
 /**
  *
  * @author Dell
  */
 public class Employee {
+
     private long id;
     private String firstName;
     private String lastName;
     private Department department;
     private static long idCount;
+    private String creationDate;
+    private String updateDate;
 
     public Employee(String firstName, String lastName, Department department) {
         id = ++idCount;
@@ -24,9 +29,8 @@ public class Employee {
     }
 
     public Employee() {
-    id = ++idCount;
+        id = ++idCount;
     }
-   
 
     public void setDepartment(Department department) {
         this.department = department;
@@ -60,15 +64,30 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", department=" + department +
-                '}';
+    public String getCreationDate() {
+        return creationDate;
     }
 
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+    
+    @Override
+    public String toString() {
+        return "Employee{"
+                + "id=" + id
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", department=" + department
+                + '}';
+    }
 
 }

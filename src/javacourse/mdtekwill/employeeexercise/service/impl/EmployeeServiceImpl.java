@@ -6,6 +6,7 @@
 package javacourse.mdtekwill.employeeexercise.service.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import javacourse.mdtekwill.employeeexercise.dao.impl.DepartmentDaoImpl;
 import javacourse.mdtekwill.employeeexercise.dao.impl.EmployeeDaoImplArrayList;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
@@ -39,6 +40,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean update(long employeeId, String firstName, String lastName, Department department) {
         return employeeDao.update(employeeId, firstName, lastName, department);
+
+    }
+    
+    @Override
+    public boolean update(long employeeId, HashMap<String, String> employeeDetailsMap, Department department) {
+        return employeeDao.update(employeeId, employeeDetailsMap, department);
 
     }
 

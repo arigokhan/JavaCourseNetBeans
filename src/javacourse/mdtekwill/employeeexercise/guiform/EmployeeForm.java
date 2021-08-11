@@ -5,6 +5,9 @@
  */
 package javacourse.mdtekwill.employeeexercise.guiform;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Vector;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
 import javacourse.mdtekwill.employeeexercise.domain.Employee;
@@ -75,11 +78,11 @@ public class EmployeeForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Department"
+                "ID", "First Name", "Last Name", "Department", "Creation Date", "Update Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -128,7 +131,7 @@ public class EmployeeForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -145,8 +148,9 @@ public class EmployeeForm extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(createBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(updateBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,8 +175,8 @@ public class EmployeeForm extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(departmentBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,15 +185,14 @@ public class EmployeeForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -210,6 +213,10 @@ public class EmployeeForm extends javax.swing.JFrame {
         } else {
             Department department = new Department(departmentBox.getSelectedItem().toString());
             Employee employee = new Employee(firstNameTxt.getText(), lastNameTxt.getText(), department);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String creationDate = now.format(format);
+            employee.setCreationDate(creationDate);
             Long.toString(employee.getId());
             employeeService.create(employee);
             idTxt.setText(Long.toString(employee.getId()));
@@ -223,7 +230,16 @@ public class EmployeeForm extends javax.swing.JFrame {
         } else {
             long id = Long.valueOf(idTxt.getText());
             Department department = new Department(departmentBox.getSelectedItem().toString());
-            employeeService.update(id, firstNameTxt.getText(), lastNameTxt.getText(), department);
+            //employeeService.update(id, firstNameTxt.getText(), lastNameTxt.getText(), department);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String updateDate = now.format(format);
+            HashMap<String, String> employeeDetailsMap = new HashMap<String, String>();
+            employeeDetailsMap.put("firstName", firstNameTxt.getText());
+            employeeDetailsMap.put("lastName", lastNameTxt.getText());
+            employeeDetailsMap.put("updateDate", updateDate);
+            employeeService.update(id, employeeDetailsMap, department);
+            
             selectEmployees();
         }
 
@@ -267,6 +283,8 @@ public class EmployeeForm extends javax.swing.JFrame {
                 vector.add(employee.getFirstName());
                 vector.add(employee.getLastName());
                 vector.add(employee.getDepartment().getName());
+                vector.add(employee.getCreationDate());
+                vector.add(employee.getUpdateDate());
                 model.addRow(vector);
             }
 

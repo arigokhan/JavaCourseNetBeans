@@ -5,6 +5,7 @@
  */
 package javacourse.mdtekwill.employeeexercise.dao;
 
+import java.util.HashMap;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
 import javacourse.mdtekwill.employeeexercise.domain.Employee;
 
@@ -19,6 +20,8 @@ public interface EmployeeDao {
     public Employee read(long employeeId);
 
     public boolean update(long employeeId, String firstName, String lastName, Department department);
+    
+    public boolean update(long employeeId, HashMap<String, String> employeeDetailsMap, Department department);
 
     public void delete(long employeeId);
 }

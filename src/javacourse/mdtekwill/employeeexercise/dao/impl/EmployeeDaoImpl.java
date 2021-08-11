@@ -5,6 +5,7 @@
  */
 package javacourse.mdtekwill.employeeexercise.dao.impl;
 
+import java.util.HashMap;
 import javacourse.mdtekwill.employeeexercise.dao.EmployeeDao;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
 import javacourse.mdtekwill.employeeexercise.domain.Employee;
@@ -22,6 +23,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee create(Employee employee) {
         employees[index] = employee;
         return employees[index++];
+       
     }
 
     @Override
@@ -53,6 +55,21 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         return false;
     }
+    
+    @Override
+    public boolean update(long employeeId, HashMap<String, String> employeeDetailsMap, Department department) {
+        Employee readEmployee = read(employeeId);
+
+        if (readEmployee != null) {
+            readEmployee.setFirstName(employeeDetailsMap.get("firstName"));
+            readEmployee.setLastName(employeeDetailsMap.get("lastName"));
+            readEmployee.setUpdateDate(employeeDetailsMap.get("updateDate"));
+            readEmployee.setDepartment(department);
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public void delete(long employeeId) {
@@ -65,10 +82,5 @@ public class EmployeeDaoImpl implements EmployeeDao {
             }
         }
 
-//        Employee readEmployee = read(employeeId);
-//
-//        if (readEmployee != null) {
-//            readEmployee = null;
-//        }
     }
 }
