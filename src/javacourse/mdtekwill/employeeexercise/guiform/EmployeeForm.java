@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class EmployeeForm extends javax.swing.JFrame {
 
     EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     /**
      * Creates new form EmployeeForm
      */
@@ -214,9 +214,9 @@ public class EmployeeForm extends javax.swing.JFrame {
             Department department = new Department(departmentBox.getSelectedItem().toString());
             Employee employee = new Employee(firstNameTxt.getText(), lastNameTxt.getText(), department);
             LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            String creationDate = now.format(format);
-            employee.setCreationDate(creationDate);
+            //String creationDate = now.format(format);
+            employee.setCreationDate(now);
+            employee.setUpdateDate(now);
             Long.toString(employee.getId());
             employeeService.create(employee);
             idTxt.setText(Long.toString(employee.getId()));
@@ -232,13 +232,12 @@ public class EmployeeForm extends javax.swing.JFrame {
             Department department = new Department(departmentBox.getSelectedItem().toString());
             //employeeService.update(id, firstNameTxt.getText(), lastNameTxt.getText(), department);
             LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            String updateDate = now.format(format);
+            //DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            //String updateDate = now.format(format);
             HashMap<String, String> employeeDetailsMap = new HashMap<String, String>();
             employeeDetailsMap.put("firstName", firstNameTxt.getText());
             employeeDetailsMap.put("lastName", lastNameTxt.getText());
-            employeeDetailsMap.put("updateDate", updateDate);
-            employeeService.update(id, employeeDetailsMap, department);
+            employeeService.update(id, employeeDetailsMap, department, now);
             
             selectEmployees();
         }
@@ -283,8 +282,8 @@ public class EmployeeForm extends javax.swing.JFrame {
                 vector.add(employee.getFirstName());
                 vector.add(employee.getLastName());
                 vector.add(employee.getDepartment().getName());
-                vector.add(employee.getCreationDate());
-                vector.add(employee.getUpdateDate());
+                vector.add(employee.getCreationDate().format(format));
+                vector.add(employee.getUpdateDate().format(format));
                 model.addRow(vector);
             }
 

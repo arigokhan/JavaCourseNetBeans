@@ -5,7 +5,9 @@
  */
 package javacourse.mdtekwill.employeeexercise.dao.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javacourse.mdtekwill.employeeexercise.domain.Department;
 import javacourse.mdtekwill.employeeexercise.domain.Employee;
 
@@ -48,6 +50,21 @@ public class EmployeeDaoImplArrayList extends EmployeeDaoImpl {
     @Override
     public Employee[] getEmployees() {
         return employeesArrayList.toArray(new Employee[employeesArrayList.size()]);          
+    }
+    
+     @Override
+    public boolean update(long employeeId, HashMap<String, String> employeeDetailsMap, Department department,LocalDateTime updateDate) {
+        Employee readEmployee = read(employeeId);
+
+        if (readEmployee != null) {
+            readEmployee.setFirstName(employeeDetailsMap.get("firstName"));
+            readEmployee.setLastName(employeeDetailsMap.get("lastName"));
+            readEmployee.setUpdateDate(updateDate);
+            readEmployee.setDepartment(department);
+            return true;
+        }
+
+        return false;
     }
 
 }

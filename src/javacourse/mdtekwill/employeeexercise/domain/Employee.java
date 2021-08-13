@@ -5,7 +5,8 @@
  */
 package javacourse.mdtekwill.employeeexercise.domain;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+
 
 /**
  *
@@ -18,8 +19,8 @@ public class Employee {
     private String lastName;
     private Department department;
     private static long idCount;
-    private String creationDate;
-    private String updateDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
 
     public Employee(String firstName, String lastName, Department department) {
         id = ++idCount;
@@ -64,19 +65,19 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public String getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public String getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(String updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
     
